@@ -20,6 +20,7 @@ so can have webserver with out having to define all
 	Resources: Ind units of configuration in puppet
 
 	Class: collection of puppet code that makes sense as a logical group. Put together under name that can be used by others.
+	include set of resources by name	
 
 	Manifest: text file for holding puppte code, single class or defined resource type
 
@@ -31,3 +32,7 @@ so can have webserver with out having to define all
 - virtual box
 - vagrant
 
+
+Modules: held on puppet forge, templates to save from reinventing the wheel
+
+	
