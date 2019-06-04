@@ -1,6 +1,29 @@
-#Puppet Workspace
+# Puppet Workspace
 
 	For learning puppet
+
+## Concepts
+
+**Puppet Master**
+
+The main server, manages all agent servers.
+
+**Puppet Agent**
+
+
+
+**Manifest** 
+
+
+
+**Resources**
+
+
+
+**Classes**
+
+
+
 
 ### Configuration managment tool
 ##### abstraction
