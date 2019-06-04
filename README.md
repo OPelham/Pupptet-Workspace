@@ -2,30 +2,143 @@
 
 	For learning puppet
 
+## Online Resources
+
+    https://cloud.google.com/community/tutorials/puppet-in-google-cloud-platform
+    https://www.digitalocean.com/community/tutorials/how-to-install-puppet-4-in-a-master-agent-setup-on-ubuntu-14-04
+    https://puppet.com/docs/puppet/6.4/puppet_index.html
+    https://www.digitalocean.com/community/tutorials/getting-started-with-puppet-code-manifests-and-modules
+
+
 ## Concepts
 
-**Puppet Master**
+### Puppet Master
 
 The main server, manages all agent servers.
 
-**Puppet Agent**
+### Puppet Agent
 
 
 
-**Manifest** 
+### Manifest
+
+Puppet programmes = manifests. made of puppet code, file names end in .pp
+
+defualt main manifest is:
+
+    /etc/puppet/manifests/site.pp
+
+<!-- include a few examples -->
 
 
 
-**Resources**
+### Modules
+
+Basic building blocks of puppet. Each module manages a specific task, eg installing and configuring a certain piece of software.
+
+must be installed in puppet modulepath. Puppet loads all conteent from every module in module path
+
+can download and install these from eg Puppet Forge, or write these yourself.
+
+They are a collection of manifests and data (facts, templates, files)
+
+best practice to use modules to organise almost all of your puppet manifests
+
+To add a module place it in /etc/puppet/modules 
+
+#### Module Structure
+
+Specific dir structure allows puppet to find and load different things eg classes, facts, providers...
+
+see:
+
+    https://puppet.com/docs/puppet/6.4/modules_fundamentals.html#concept-1234
 
 
 
-**Classes**
+### Resources
+
+Puppet code is mainly resource declarations, describing the state of the system.
+
+eg a resource declaration might declare a user and the attributes associated:
+
+    user { 'mitchel':
+        ensure => present,
+        uid => '1000',
+        gid => '1000',
+        shell => '/bin/bash',
+        home => '/home/mitchell'
+    }
+
+this follows the format
+
+    resource_type { 'resource_name'
+        attribute => value
+        ...
+    }
+
+can list all default types available with:
+
+    puppet reosurce --types
 
 
 
+### Classes
 
-### Configuration managment tool
+code blocks that can be called elsewhere, make reading manifest easier
+
+#### Class Definitions
+
+compose a class makes it available in manifests
+
+an eg for fomatting
+
+    class example_class {
+        ...puppet code goes here...
+    }
+
+#### Class Declaration
+
+when class is called in manifest. Tells puppet to evaluate code within this class.
+
+Two types:
+- normal
+- resource-like
+
+**normal**
+
+include keyword is used
+
+    include example_class
+
+**resource-like**
+
+class is declared like a resource
+
+    class { 'example_class': }
+
+can specify class paramaters which override the class default
+
+
+### Communication
+agent node sends facts to master and requests catelog
+
+master compiles and returns catelog based on sources it has access to
+
+agent applies catelog to node, checking each resource described in catalog. If not in desired state corrects this
+
+agent sends back report to master
+
+Note: all communication through https with SSL certificates.
+Agents automatically request certificates from master you sign these with puppetserver ca command.
+
+
+# Tutorial on how to develop a manifest
+
+    https://www.digitalocean.com/community/tutorials/getting-started-with-puppet-code-manifests-and-modules
+
+
+<!--
 ##### abstraction
 - resources
 	eg
@@ -50,6 +163,8 @@ so can have webserver with out having to define all
 	Profile: Class defining specific config, gen from other classes groups
 
 	Role: business role of node defined, sev profile classes, code duplication encouraged
+
+-->
 
 # Project set up
 - virtual box
@@ -151,7 +266,7 @@ and copy the following:
      include webserver
     }
 
-<!-- TODO include notes on what this means, what you are doing-->
+<!-- TODO include notes what this means, what you are doing-->
 
 Navigate to the /etc/puppetlabs/code/environments/production/modules directory 
 
