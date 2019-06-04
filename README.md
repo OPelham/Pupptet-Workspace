@@ -122,8 +122,44 @@ On the puppet-master instance, navigate to the folder /etc/puppetlabs/code/envir
 
 and copy the following:
 
+    sudo vim site.pp 
+
     node /agent/{
      include webserver
     }
 
+<!-- TODO include notes on what this means, what you are doing-->
 
+Navigate to the /etc/puppetlabs/code/environments/production/modules directory 
+
+    cd ..
+    cd modules
+
+Make a new directory by running the following command:
+
+    sudo mkdir -p webserver/manifests
+
+create a file in here init.pp
+
+    cd webserver/manifests
+    sudo touch init.pp
+
+in this file add the following:
+
+    class webserver {
+        package { 'apache2' :
+        ensure => present
+        }
+        file {'/var/www/html/index.html': # resouce type file and filename
+            ensure => present, # make sure it exists
+            content => "<h1>This page is installed from Puppet Master</h1>", # content od the file
+    
+        }
+
+    }
+
+Run the following command on the puppet-agent instance to get the catalog from the Puppet master and apply the manifest:
+
+    sudo /opt/puppetlabs/bin/puppet agent --test
+
+Copy the external IP address of the puppet-agent instance (you can get this from the VM instances page in the GCP console) and paste it into your browser. You should see a web page with the message "This page is installed from Puppet Master".
