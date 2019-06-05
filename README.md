@@ -14,11 +14,30 @@
 
 ### Puppet Master
 
-The main server, manages all agent servers.
+The main server, manages all agent servers. Linux based machine
 
 ### Puppet Agent
 
+Node Controlled by Master
+checks in with master every 1800s by default.
+any update needed?
+if so pulls from master (rather than pushed from master)
 
+### Standalone deployment Model
+
+Instead of master-agent all on one machine, used for dev, test, POC
+
+### Dataflow
+
+master node with puppet code managment admin logs in here to make changes
+secure certificates signed by master for agents (connection with agent on port 8140)
+
+3 step process for communication
+once conncted
+agent sends facts (info about agents own state) eg host name, kernal, file names...
+Master compiles configuration for agent based on facts - the catelog (what changes to make)
+Agent use this to make changes if needed, executes configuration drift
+agent then sends report back to master saying changes made (can integrate reports with 3rd party tools...)
 
 ### Manifest
 
@@ -53,7 +72,7 @@ Specific dir structure allows puppet to find and load different things eg classe
 see:
 
     https://puppet.com/docs/puppet/6.4/modules_fundamentals.html#concept-1234
-
+    https://puppet.com/docs/puppet/5.3/modules_fundamentals.html
 
 
 ### Resources
@@ -81,7 +100,7 @@ can list all default types available with:
 
     puppet reosurce --types
 
-
+Resources for eg package, user
 
 ### Classes
 
@@ -133,9 +152,55 @@ Note: all communication through https with SSL certificates.
 Agents automatically request certificates from master you sign these with puppetserver ca command.
 
 
+# Udemy - Puppet for Absolute Beginners
+
+## Overview
+adding user to many servers:
+script sent from central server 'golden host'
+issues with many diff OSs on servers
+need scripts that work with each OS on for each potentially
+
+With script same result with out worrying about OS
+puppet takes care of the rest
+
+infrastructure as code
+
+Idempotency
+stays the same regardless of number of times run.
+eg no error if enable and already enabled, will just skip over it
+
+## Setup Puppet
+
+### Master
+fqdn of puppet mastere recomended as host name (fully qualified domain name - includes all domain levels )
+add to etc/hosts file so remains consitent
+
+min 2vCPU, 1gb Ram - if under 1000 nodes
+
+Master needs to have port 8140 open to connect with agents (https)
+
+correct time set up on both - ntp for puppet environment 
+
+Installing puppet on linux - package manager eg yum, apt-get, or through source with git
+
+### Using Virtual Box
+
+- download virtual box
+- download centOS from osboxes.org
+- move vdi into HOME/Library/VirtualBox/HardDisks/.
+- when created -> settings -> network NAT, advanced -> port forwarding name ssh host port 2222 guest port 22
+- take snapshot 
+- login and password osboxes.org as default
+- ifconfig -a
+- sudo -i
+- check ssh with systemctl status sshd
+- ssh root@127.0.0.1 -p2222
+-
+
 # Tutorial on how to develop a manifest
 
     https://www.digitalocean.com/community/tutorials/getting-started-with-puppet-code-manifests-and-modules
+
 
 
 <!--
