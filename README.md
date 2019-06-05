@@ -195,7 +195,44 @@ Installing puppet on linux - package manager eg yum, apt-get, or through source 
 - sudo -i
 - check ssh with systemctl status sshd
 - ssh root@127.0.0.1 -p2222
+- ping google.com
+
+### Pupet self contained example
+
+check ip address - will be 10.0.2.15
+vim /etc/hosts
+add line with above ip address and puppetselfcontained.example.com
+
+set host name as the above with 
+
+    hostnamectl set-hostname puppetselfcontained.example.com
+
+check this worked with 
+
+    hostname
+
+https://puppet.com/docs/puppet/5.5/puppet_platform.html#yum-based-systems
+
+the above has command for enterprise linux 7
+
+    sudo rpm -Uvh https://yum.puppet.com/puppet5-release-el-7.noarch.rpm
+
+To check all poackages
+
+    yum list | grep -i puppet
+
+now install puppet
+
+    yum install puppet-agent.x86_64
+
+systemctl status puppet
+systemctl start puppet
+systemctl status puppet
+
+Setting up ageents
+- need connectivity (could ping)
 -
+
 
 # Tutorial on how to develop a manifest
 
