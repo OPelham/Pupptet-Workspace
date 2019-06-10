@@ -203,6 +203,9 @@ check ip address - will be 10.0.2.15
 vim /etc/hosts
 add line with above ip address and puppetselfcontained.example.com
 
+suggests fqdn
+and this set to be persistent
+
 set host name as the above with 
 
     hostnamectl set-hostname puppetselfcontained.example.com
@@ -231,7 +234,80 @@ systemctl status puppet
 
 Setting up ageents
 - need connectivity (could ping)
--
+- master port 8140 to connect with agents
+- NTP server in environment so all are in sync for time
+
+Connecting master and agent
+puppet configuration file for each master and agent
+at:
+    /etc/puppetlabs/puppet/puppet.conf
+COuld differ based on OS
+
+master config file
+
+    [main]
+    certname = [here put FQDN of puppet master] puppet.example.com
+    server = puppet.example.com
+
+agent config file
+
+    [main]
+    certname = agent01.example.com
+    server = puppet.example.com
+
+then run 
+
+    puppet agent --test
+this verifies connectivity between both
+But need secure connection
+SSL certificates
+
+master is certificate authority for all agents
+
+agent first checks if has signed cert from master
+
+if not requests one
+
+master signs and sends back
+
+used for all future communication between the two
+
+tracked under /etc/puppetlabs/puppet/ssl/ in both agent and master
+
+systemctl start puppet runs connection from agent?
+
+on master then
+
+    puppet cert list
+will show all certificates waiting certification
+
+    puppet cert sign [name of agent eg agent01.example.com]
+to manually approve one
+
+autsign automatically sign from predefined list of servers
+
+need file called autosign.conf
+
+in /etc/puppetlabs/puppet/
+
+in this could have hostnames or wildcard patterns eg:
+
+    agent02.example.com
+    *.company.com
+
+Then restart puppet master services after change
+
+    systemctl restart puppetserver
+
+other commands
+
+    puppet cert clean
+clears all existing  certs from master
+
+    puppet cert generate
+explicit make certificate
+
+
 
 
 # Tutorial on how to develop a manifest
