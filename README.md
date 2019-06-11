@@ -151,6 +151,48 @@ agent sends back report to master
 Note: all communication through https with SSL certificates.
 Agents automatically request certificates from master you sign these with puppetserver ca command.
 
+### File Structure
+
+    https://puppet.com/blog/magic-directories-guide-to-puppet-directory-structure
+
+#### Code and Data Directory (codedir)
+main dir for puppet code and data.
+
+Used by puppet master and puppet apply (not agent)
+
+Contains:
+- environments
+    - These contain your manifests and modules
+- global modules directory for all environments
+- Heira data and configuration
+
+#### Config Directory (confdir)
+main directory for puppet configuration
+
+Contains:
+- config files
+- SSL data
+
+#### Main Manifest Direectory
+puppet starts compiling catalog with single manifest fule or with dir of manifests which are treated as a single file. Starting point is "main manifest" or "site manifest"
+
+#### modulepath
+master service and puppet apply load most of their content from modules across one or more dirs. list of dirs for puppet to look in is "modulepath"
+
+To view can use 
+
+    puppet config print modulepath
+
+#### SSL directory (ssldir)
+certificates stored here. similar structure on all nodes
+
+#### Cache direcrtory (vardir)
+puppet generates data and stores it here. can mine this for analysis, or integrate other tools with puppet
+
+### What is Heira
+puppet's built in key/value data lookup system
+
+puppet automatically searches this yaml/json for class parameters. can use to configure module
 
 # Udemy - Puppet for Absolute Beginners
 
