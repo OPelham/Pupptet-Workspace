@@ -274,7 +274,14 @@ site.pp is main entry point (aka site manifest)
 declare classes only here
 
 
+###### Node Definitions
+node definitions in site.pp file
+node keyword used when defining eg:
 
+	node "host01" {
+	  include ntpconfig
+	  
+	}
 
 
 #### Main Manifest Direectory
@@ -550,7 +557,7 @@ before staring puppet agent edit /etc/hosts file to identify puppet master to us
     sudo vim /etc/hosts 
 add:
 
-    10.128.0.3 puppet-master.us-central1-a.my-user-project-241423.internal puppet-master # Added by me
+    [PUPPET_MASTER_COMPUTE_ENGINE_INSTANCE_INTERNAL_IP_ADDRESS] Puppet  # Added by me
 
 then run puppet agern
 
