@@ -251,6 +251,31 @@ will show what changes would be applied
     puppet apply [resource].pp
 
 Q: WHERE are resources, classes etc stored?
+in manifests?
+
+###### Classes
+define them in a manifest
+then call them with:
+
+    include [classname]
+
+Where needed (can be within same file)
+
+###### Manifests
+
+dir structure is well defined
+all .pp should be in manifest dir
+
+puppet config print 
+
+gives dir for main manifest (main entrypoint)
+
+site.pp is main entry point (aka site manifest)
+declare classes only here
+
+
+
+
 
 #### Main Manifest Direectory
 puppet starts compiling catalog with single manifest fule or with dir of manifests which are treated as a single file. Starting point is "main manifest" or "site manifest"
