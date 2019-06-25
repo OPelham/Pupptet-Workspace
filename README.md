@@ -173,6 +173,85 @@ Contains:
 - config files
 - SSL data
 
+
+#### Configuration
+How to assign groups and configurations based on agent types
+
+Classes if ancesotr node group has a class all desendents have that class too
+
+these also inherit all class parameters and variables
+
+Rules - node group can only marcg nodes that all ancestors also match. So specifying rules in child node group can narrow down  nodes in parent group
+
+NOTE node can mach diff node groups causing conflicts
+
+EG create node group webservers
+add classes here that need to be applied to all web servers
+
+then can specify subsets with differing commonalities
+
+Once node groups created can manualy or dynamically add nodes to a group
+static/dynamic
+
+WIth rules or manually pinning nodes
+
+#### Architecture
+facts from agent to master
+facter command to gather system inventory as key:value pairs
+compares that received and masters config to esstablish drift between desired and running state
+
+##### Building blocks
+Resources can be grouped into classes 
+Manifest end with .pp and puppet dsl (domain specific language) files definitions of puppet classes
+modules collections of files def like manifests, class definitions etc
+
+##### REsources
+custom resource types or predefined
+written as .pp
+
+Resources have attribute and value (attribute => "value")
+
+FINDINF RESOURCE TYPES
+
+    puppet resource --type
+
+then use:
+
+    puppet describe [type]
+
+to check which attributes
+
+can use 
+
+    puppet help [what to find]
+
+##### excersices
+
+create, check, test, run
+
+###### create
+
+
+###### check
+
+    puppet parser validate [resource].pp
+
+sill see if syntax errors present
+
+###### test
+
+smoke test
+
+    puppet apply [resource].pp --noop
+
+will show what changes would be applied
+
+###### run
+
+    puppet apply [resource].pp
+
+Q: WHERE are resources, classes etc stored?
+
 #### Main Manifest Direectory
 puppet starts compiling catalog with single manifest fule or with dir of manifests which are treated as a single file. Starting point is "main manifest" or "site manifest"
 
